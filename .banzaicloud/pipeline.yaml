@@ -22,7 +22,40 @@ pipeline:
     - helm repo add banzaicloud-stable http://kubernetes-charts.banzaicloud.com/branch/master
     - helm package -u ./.banzaicloud/charts/spotguide-spring-boot
 
+  install_mysql_user_secret:
+    when:
+      branch:
+        include: [master]
+    image: banzaicloud/ci-pipeline-client:latest
+    action: InstallSecret
+    cluster_secret:
+      name: '{{ .DRONE_REPO_NAME }}-mysql'
+      namespace: default
+      merge: true
+      spec:
+        - name: mysql-username
+          source: username
+        - name: mysql-password
+          source: password
+
+  install_mysql_root_secret:
+    when:
+      branch:
+        include: [master]
+    image: banzaicloud/ci-pipeline-client:latest
+    action: InstallSecret
+    cluster_secret:
+      name: '{{ .DRONE_REPO_NAME }}-mysql'
+      namespace: default
+      merge: true
+      spec:
+        - name: mysql-root-password
+          source: password
+
   deploy_application:
+    when:
+      branch:
+        include: [master]
     image: banzaicloud/ci-pipeline-client:latest
     action: EnsureDeployment
     deployment:
@@ -38,3 +71,5 @@ pipeline:
         ingress:
           hosts:
           - "{{.DRONE_REPO_NAME}}.{{.CLUSTER_NAME}}.{{.ORG_NAME}}.{{.DOMAIN_NAME}}"
+        mysql:
+          existingSecret: '{{ .DRONE_REPO_NAME }}-mongodb'

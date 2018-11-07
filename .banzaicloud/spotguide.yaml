@@ -23,53 +23,53 @@ questions:
   - name: build_container.secretFrom.DOCKER_PASSWORD.name
 - type: secret
   dataType: password
-  name: mongodb
-  group: MongoDB
+  name: mysql
+  group: MySQL
   order: 1
   required:
     username: true
   default:
     username: username
   tags:
-  - app:mongodb
+  - app:mysql
   targets:
-  - name: install_mongodb_user_secret.cluster_secret.sourceSecretName
-  - username: deploy_application.deployment.values.mongodb.mongodbUsername
+  - name: install_mysql_user_secret.cluster_secret.sourceSecretName
+  - username: deploy_application.deployment.values.mysql.mysqlUser
 - type: pipeline
   dataType: string
-  label: MongoDB database
-  default: node-application
-  group: MongoDB
+  label: MySQL database
+  default: spring-boot
+  group: MySQL
   required: true
   order: 2
   targets:
-  - deploy_application.deployment.values.mongodb.mongodbDatabase
+  - deploy_application.deployment.values.mysql.mysqlDatabase
 - type: pipeline
-  key: mongodb_root_password
-  group: MongoDB
+  key: mysql_root_password
+  group: MySQL
   dataType: boolean
-  label: Customize MongoDB root user
+  label: Customize MySQL root user password
   default: false
   order: 3
 - type: secret
   dataType: password
-  name: mongodb-root
-  group: MongoDB
+  name: mysql-root
+  group: MySQL
   order: 4
   default:
-    username: admin
+    username: root
   disabled:
     username: true
   label:
     username: Root username
     password: Root password
   tags:
-  - app:mongodb
+  - app:mysql
   targets:
-  - name: install_mongodb_root_secret.cluster_secret.sourceSecretName
+  - name: install_mysql_root_secret.cluster_secret.sourceSecretName
   showIf:
     properties:
-      mongodb_root_password:
+      mysql_root_password:
         const: true
 - type: pipeline
   key: application_resources
@@ -81,10 +81,10 @@ questions:
 - type: pipeline
   dataType: string
   label: Memory request
-  default: 128Mi
+  default: 512Mi
   group: Resources
   pattern: ^\d+(E|P|T|G|M|K|Ei|Pi|Ti|Gi|Mi|Ki)?$
-  description: Minimum amount of memory the Node.js container needs
+  description: Minimum amount of memory the Spring Boot container needs
   required: true
   order: 2
   targets:
@@ -96,10 +96,10 @@ questions:
 - type: pipeline
   dataType: string
   label: Memory limit
-  default: 512Mi
+  default: 1Gi
   group: Resources
   pattern: ^\d+(E|P|T|G|M|K|Ei|Pi|Ti|Gi|Mi|Ki)?$
-  description: Maximum amount of memory the Node.js container can use
+  description: Maximum amount of memory the Spring Boot container can use
   required: true
   order: 3
   targets:
@@ -114,7 +114,7 @@ questions:
   default: 250m
   group: Resources
   pattern: ^\d+(\.?\d+|m)?$
-  description: Minimum amount of CPU the Node.js container needs
+  description: Minimum amount of CPU the Spring Boot container needs
   required: true
   order: 4
   targets:
@@ -129,7 +129,7 @@ questions:
   default: 500m
   group: Resources
   pattern: ^\d+m$
-  description: Maximum amount of CPU the Node.js container can use
+  description: Maximum amount of CPU the Spring Boot container can use
   required: true
   order: 5
   targets:
