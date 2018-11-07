@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: spotguide-spring-boot
+  jpa:
+    hibernate.ddl-auto: create
+#    properties.hibernate.dialect: org.hibernate.dialect.MySQLDialect
+  datasource:
+    url: jdbc:mysql://localhost:3306/users?useSSL=false
+#    username: sparky
+#    password: sparky123

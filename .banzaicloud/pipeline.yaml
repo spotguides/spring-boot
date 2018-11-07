@@ -1,0 +1,40 @@
+pipeline:
+  create_cluster:
+    image: banzaicloud/ci-pipeline-client:latest
+    action: EnsureCluster
+
+  test:
+    image: maven:3.5-jdk-11-slim
+    commands:
+    - mvn clean test
+
+  build_container:
+    image: plugins/docker
+    dockerfile: Dockerfile
+    repo: '{{ .DRONE_REPO }}'
+    tags: '{{ .DRONE_COMMIT_BRANCH }}'
+    log: debug
+
+  package_application:
+    image: lachlanevenson/k8s-helm:latest
+    commands:
+    - helm init -c
+    - helm repo add banzaicloud-stable http://kubernetes-charts.banzaicloud.com/branch/master
+    - helm package -u ./.banzaicloud/charts/spotguide-spring-boot
+
+  deploy_application:
+    image: banzaicloud/ci-pipeline-client:latest
+    action: EnsureDeployment
+    deployment:
+      name: './spotguide-spring-boot-1.0.0.tgz'
+      reuseValues: true
+      releaseName: '{{ .DRONE_REPO_NAME }}'
+      values:
+        deployment:
+          image:
+            repository: '{{ .DRONE_REPO }}'
+            tag: '{{ .DRONE_COMMIT_BRANCH }}'
+            pullPolicy: Always
+        ingress:
+          hosts:
+          - "{{.DRONE_REPO_NAME}}.{{.CLUSTER_NAME}}.{{.ORG_NAME}}.{{.DOMAIN_NAME}}"

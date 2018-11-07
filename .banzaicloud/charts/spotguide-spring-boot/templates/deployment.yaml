@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "spotguide-spring-boot.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "spotguide-spring-boot.name" . }}
+    helm.sh/chart: {{ include "spotguide-spring-boot.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "spotguide-spring-boot.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "spotguide-spring-boot.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+#      initContainers:
+#        - name: {{ .Chart.Name }}-jks
+#          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+#          imagePullPolicy: {{ .Values.image.pullPolicy }}
+#          command:
+#            - keytool
+#            - -importcert
+#            - -storepass
+#            - {{ derivePassword 1 "long" (.Release.Time | toString) "banzai" "cacert" }}
+#            - -noprompt
+#            - -file
+#            - /vault/cacert/ca.crt
+#            - -keystore
+#            - /vault/jkscacert/ca.jks
+#          volumeMounts:
+#            - mountPath: /vault/cacert
+#              name: vault-cacert
+#            - mountPath: /vault/jkscacert
+#              name: vault-jks-cacert
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30 # When using resource limits the JVM needs some time to start-up
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://{{ include "spotguide-spring-boot.fullname" . }}-mysql:3306/users?useSSL=false
+            - name: SPRING_DATASOURCE_USERNAME
+              value: sparky
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: sparky123
+#            - name: VAULT_URI
+#              value: https://{{ .Release.Name }}-vault:8200
+#            - name: VAULT_SSL_TRUST_STORE
+#              value: file:///vault/cacert/ca.jks
+#            - name: VAULT_SSL_TRUST_STORE_PASSWORD
+#              value: {{ derivePassword 1 "long" (.Release.Time | toString) "banzai" "cacert" }}
+            {{ range $key, $value := .Values.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{ end }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+#          volumeMounts:
+#          - mountPath: /vault/cacert
+#            name: vault-jks-cacert
+#      volumes:
+#        - name: vault-cacert
+#          secret:
+#            secretName: {{ .Release.Name }}-vault-tls
+#        - name: vault-jks-cacert
+#          emptyDir: {}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
