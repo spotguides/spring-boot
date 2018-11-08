@@ -74,6 +74,7 @@ pipeline:
             tag: '{{ .DRONE_COMMIT_BRANCH }}'
             pullPolicy: Always
         ingress:
+          enabled: true
           hosts:
           - "{{.DRONE_REPO_NAME}}.{{.CLUSTER_NAME}}.{{.ORG_NAME}}.{{.DOMAIN_NAME}}"
         mysql:
