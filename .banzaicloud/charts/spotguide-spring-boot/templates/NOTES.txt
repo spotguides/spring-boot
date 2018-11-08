@@ -1,19 +1,29 @@
-1. Get the application URL by running these commands:
-{{- if .Values.ingress.enabled }}
-{{- range .Values.ingress.hosts }}
-  http{{ if $.Values.ingress.tls }}s{{ end }}://{{ . }}{{ $.Values.ingress.path }}
+Congratulations, your Spring Boot application has been deployed to Kubernetes!
+
+{{ if gt (len .Values.ingress.hosts) 0 }}
+The application can be accessed on the following host(s) on port {{ .Values.service.port }}:
+{{ range .Values.ingress.hosts }}
+- [{{ . }}](http://{{ . }})
 {{- end }}
-{{- else if contains "NodePort" .Values.service.type }}
-  export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ include "spotguide-spring-boot.fullname" . }})
-  export NODE_IP=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")
-  echo http://$NODE_IP:$NODE_PORT
-{{- else if contains "LoadBalancer" .Values.service.type }}
-     NOTE: It may take a few minutes for the LoadBalancer IP to be available.
-           You can watch the status of by running 'kubectl get svc -w {{ include "spotguide-spring-boot.fullname" . }}'
-  export SERVICE_IP=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ include "spotguide-spring-boot.fullname" . }} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-  echo http://$SERVICE_IP:{{ .Values.service.port }}
-{{- else if contains "ClusterIP" .Values.service.type }}
-  export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ include "spotguide-spring-boot.name" . }},app.kubernetes.io/instance={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
-  echo "Visit http://127.0.0.1:8080 to use your application"
-  kubectl port-forward $POD_NAME 8080:80
+{{- else }}
+The application can be accessed on localhost by using the following command:
+
+  kubectl -n {{ .Release.Namespace }} port-forward svc/{{ template "spotguide-spring-boot.fullname" . }}-application {{ .Values.service.targetPort }}:{{ .Values.service.port }}
+{{- end }}
+
+_It might take a few minutes to be available._
+
+{{- if .Values.banzaicloud.cluster.id }}
+
+Every time you make changes to the [source code](https://github.com/{{ include "repo-user" . }}/{{ include "repo-name" . }}) and update the `master` branch, the CI/CD pipeline will be triggered to test, validate and update the deployment of your application.
+
+- [CI/CD]({{ .Values.banzaicloud.organization.name }}/cicd/{{ include "repo-name" . }})
+- [Cluster]({{ .Values.banzaicloud.organization.name }}/cluster/{{ .Values.banzaicloud.cluster.id }}/details)
+- [Secrets]({{ .Values.banzaicloud.organization.name }}/secret?filter={{ include "repo-tag" . }})
+
+Monitor your application with Grafana:
+
+- [Grafana]({{ .Values.banzaicloud.organization.name }}/deployment?cluster={{ .Values.banzaicloud.cluster.name }}&releaseName=monitor)
+- [User secret]({{ .Values.banzaicloud.organization.name }}/secret?name=cluster-{{ .Values.banzaicloud.cluster.id }}-grafana)
+
 {{- end }}
