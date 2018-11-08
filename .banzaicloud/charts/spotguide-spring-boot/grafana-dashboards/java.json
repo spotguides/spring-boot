@@ -289,7 +289,7 @@
           "tableColumn": "",
           "targets": [
             {
-              "expr": "process_cpu_usage{kubernetes_pod_name=~\"$pod_name\"}",
+              "expr": "system_cpu_count{kubernetes_pod_name=~\"$pod_name\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "",
