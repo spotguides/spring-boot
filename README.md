@@ -6,7 +6,7 @@ A spotguide for a Spring Boot application which talks with MySQL database.
 ## Build and Test locally with Docker for Mac Kubernetes
 docker build -t banzaicloud/spotguide-spring-boot:latest .
 helm dep update .banzaicloud/charts/spotguide-spring-boot
-helm upgrade --install spotguide-spring-boot .banzaicloud/charts/spotguide-spring-boot --set ingress.enabled=true --set "ingress.hosts[0]=localhost"
+helm upgrade --install spotguide-spring-boot .banzaicloud/charts/spotguide-spring-boot --set ingress.enabled=true --set "ingress.hosts[0]=localhost" --set monitor.enabled=true
 
 # Check the application (if Ingress not enabled)
 kubectl port-forward deployment/spotguide-spring-boot 8080

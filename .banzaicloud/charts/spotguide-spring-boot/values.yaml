@@ -51,3 +51,8 @@ mysql:
   mysqlUser: sparky
   mysqlPassword: sparky123
   mysqlDatabase: users
+  metrics:
+    enabled: true
+    annotations:
+      prometheus.io/scrape: "true"
+      prometheus.io/port: "9104"

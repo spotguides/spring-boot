@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "spotguide-spring-boot.fullname" . }}-grafana-dashboard-mysql
+  labels:
+    app.kubernetes.io/name: {{ include "spotguide-spring-boot.name" . }}
+    helm.sh/chart: {{ include "spotguide-spring-boot.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    pipeline_grafana_dashboard: "1"
+data:
+  mysql.json: |-2
+{{ .Files.Get "grafana-dashboards/mysql.json"| indent 4 }}

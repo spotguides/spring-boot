@@ -1,4 +1,9 @@
 dependencies:
-  - name: mysql
-    version: 0.10.2
-    repository: "@stable"
+- name: mysql
+  version: 0.10.2
+  repository: "@stable"
+- name: pipeline-cluster-monitor
+  repository: http://kubernetes-charts.banzaicloud.com/branch/master
+  version: 0.1.9
+  alias: monitor
+  condition: monitor.enabled
