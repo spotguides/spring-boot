@@ -18,6 +18,10 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "spotguide-spring-boot.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/actuator/prometheus"
     spec:
       containers:
         - name: {{ .Chart.Name }}
@@ -29,12 +33,12 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /actuator/health
               port: http
             initialDelaySeconds: 30 # When using resource limits the JVM needs some time to start-up
           readinessProbe:
             httpGet:
-              path: /
+              path: /actuator/health
               port: http
           env:
             - name: SPRING_DATASOURCE_URL

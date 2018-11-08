@@ -29,10 +29,6 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-env:
-  VAULT_AUTHENTICATION: kubernetes
-  VAULT_KUBERNETES_ROLE: application
-
 resources:
    limits:
     cpu: 500m

@@ -2,8 +2,13 @@ dependencies:
 - name: mysql
   version: 0.10.2
   repository: "@stable"
+- name: pipeline-cluster-ingress
+  repository: http://kubernetes-charts.banzaicloud.com/branch/master
+  version: 0.0.6
+  alias: ingress
+  condition: pipeline-ingress.enabled
 - name: pipeline-cluster-monitor
   repository: http://kubernetes-charts.banzaicloud.com/branch/master
-  version: 0.1.9
+  version: 0.1.10
   alias: monitor
   condition: monitor.enabled

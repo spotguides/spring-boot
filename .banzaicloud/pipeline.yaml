@@ -8,7 +8,7 @@ pipeline:
     commands:
     - mvn clean test
 
-  build_container:
+  build_image:
     image: plugins/docker
     dockerfile: Dockerfile
     repo: '{{ .DRONE_REPO }}'

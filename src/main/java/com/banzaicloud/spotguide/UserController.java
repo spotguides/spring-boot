@@ -13,18 +13,9 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/")
-    public String health() {
-        return "OK";
-    }
-
-
     @PostMapping(path = "/users")
     public User addNewUser(@RequestBody User user) {
-
-        userRepository.save(user);
-
-        return user;
+        return userRepository.save(user);
     }
 
     @GetMapping(path = "/users")
