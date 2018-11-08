@@ -68,11 +68,10 @@ pipeline:
       reuseValues: true
       releaseName: '{{ .DRONE_REPO_NAME }}'
       values:
-        deployment:
-          image:
-            repository: '{{ .DRONE_REPO }}'
-            tag: '{{ .DRONE_COMMIT_BRANCH }}'
-            pullPolicy: Always
+        image:
+          repository: '{{ .DRONE_REPO }}'
+          tag: '{{ .DRONE_COMMIT_BRANCH }}'
+          pullPolicy: Always
         ingress:
           enabled: true
           hosts:
