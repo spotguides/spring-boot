@@ -43,9 +43,9 @@ spec:
               value: {{ .Values.mysql.mysqlUser }}
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
-              secretKeyRef:
-                name: {{ if .Values.mysql.existingSecret }}{{ .Values.mysql.existingSecret }}{{- else }}{{ include "spotguide-spring-boot.fullname" . }}-mysql{{- end }}
-                key: mysql-password
+                secretKeyRef:
+                  name: {{ if .Values.mysql.existingSecret }}{{ .Values.mysql.existingSecret }}{{- else }}{{ include "spotguide-spring-boot.fullname" . }}-mysql{{- end }}
+                  key: mysql-password
             {{ range $key, $value := .Values.env }}
             - name: {{ $key }}
               value: {{ $value | quote }}
