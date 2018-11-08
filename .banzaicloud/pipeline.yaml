@@ -77,4 +77,4 @@ pipeline:
           hosts:
           - "{{.DRONE_REPO_NAME}}.{{.CLUSTER_NAME}}.{{.ORG_NAME}}.{{.DOMAIN_NAME}}"
         mysql:
-          existingSecret: '{{ .DRONE_REPO_NAME }}-mongodb'
+          existingSecret: '{{ .DRONE_REPO_NAME }}-mysql'
