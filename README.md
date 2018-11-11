@@ -1,5 +1,5 @@
 # spotguide-spring-boot
-A spotguide for a Spring Boot application which talks with MySQL database.
+A spotguide for a Spring Boot application which talks to a MySQL database.
 
 
 ```bash
