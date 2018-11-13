@@ -33,7 +33,7 @@ questions:
   tags:
   - app:mysql
   targets:
-  - name: install_mysql_user_secret.cluster_secret.sourceSecretName
+  - name: install_mysql_user_secret.clusterSecret.sourceSecretName
   - username: deploy_application.deployment.values.mysql.mysqlUser
 - type: pipeline
   dataType: string
@@ -66,7 +66,7 @@ questions:
   tags:
   - app:mysql
   targets:
-  - name: install_mysql_root_secret.cluster_secret.sourceSecretName
+  - name: install_mysql_root_secret.clusterSecret.sourceSecretName
   showIf:
     properties:
       mysql_root_password:

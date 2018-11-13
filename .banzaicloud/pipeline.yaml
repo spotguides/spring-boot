@@ -31,9 +31,9 @@ pipeline:
     when:
       branch:
         include: [master]
-    image: banzaicloud/ci-pipeline-client:latest
+    image: banzaicloud/ci-pipeline-client:0.6
     action: InstallSecret
-    cluster_secret:
+    clusterSecret:
       name: '{{ .DRONE_REPO_NAME }}-mysql'
       namespace: default
       merge: true
@@ -49,7 +49,7 @@ pipeline:
         include: [master]
     image: banzaicloud/ci-pipeline-client:latest
     action: InstallSecret
-    cluster_secret:
+    clusterSecret:
       name: '{{ .DRONE_REPO_NAME }}-mysql'
       namespace: default
       merge: true
