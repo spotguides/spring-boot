@@ -13,8 +13,9 @@ This repository was created by Banzai Cloud Pipeline. Spotguides provide automat
     - [Kubernetes ready Spring Boot](#kubernetes-ready-spring-boot)
   - [Environment variables](#environment-variables)
   - [Endpoints](#endpoints)
-    - [`GET /actuator/metrics`](#get-metrics)
-    - [`GET /actuator/health`](#get-healthy)
+    - [`GET /actuator/kubernetes`](#get-actuatorkubernetes)
+    - [`GET /actuator/prometheus`](#get-actuatorprometheus)
+    - [`GET /actuator/health`](#get-actuatorhealth)
     - [`GET /ready`](#get-ready)
     - [`GET /api/v1/users`](#get-apiv1users)
     - [`POST /api/v1/users`](#post-apiv1users)
@@ -114,7 +115,7 @@ mvn spring-boot:run
 
 ### Kubernetes ready Spring Boot
 
-Our [`Spring Boot Actuator` library](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready) provides all the essential features to prepare your Spring Boot application truly ready for production on Kubernetes, such as:
+Our [`Spring Boot Actuator` library](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready) and [Spring Cloud Kubernetes](https://github.com/spring-cloud/spring-cloud-kubernetes) together provides all the essential features to prepare your Spring Boot application truly ready for production on Kubernetes, such as:
 
 - graceful error handling & shutdown
 - structured JSON logging
@@ -136,11 +137,11 @@ Our [`Spring Boot Actuator` library](https://docs.spring.io/spring-boot/docs/cur
 
 These are the implemented REST endpoints in the sample application.
 
-### `GET /`
+### `GET /actuator/kubernetes`
 
-Root endpoint, returns basic [Pod](https://kubernetes.io/docs/concepts/workloads/pods/pod/) information, like name, namespace and image.
+Kubernetes endpoint, returns basic [Pod](https://kubernetes.io/docs/concepts/workloads/pods/pod/) information, like name, namespace and image.
 
-### `GET /actuator/metrics`
+### `GET /actuator/prometheus`
 
 [Prometheus](https://prometheus.io) metrics endpoint.
 

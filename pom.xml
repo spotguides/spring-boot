@@ -24,6 +24,7 @@
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <maven.compiler.release>11</maven.compiler.release>
         <spring-cloud.version>Finchley.SR1</spring-cloud.version>
+        <spring-cloud-kubernetes.version>0.3.0.RELEASE</spring-cloud-kubernetes.version>
     </properties>
 
     <dependencies>
@@ -46,11 +47,24 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <!-- https://github.com/spring-cloud/spring-cloud-security/issues/143#issuecomment-376391930 -->
+            <exclusions>
+                <exclusion>
+                    <groupId>com.zaxxer</groupId>
+                    <artifactId>HikariCP</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-kubernetes-core</artifactId>
+            <version>${spring-cloud-kubernetes.version}</version>
         </dependency>
 
         <dependency>
@@ -68,6 +82,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
+            <optional>true</optional>
         </dependency>
 
     </dependencies>

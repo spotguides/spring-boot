@@ -40,6 +40,11 @@ spec:
             httpGet:
               path: /actuator/health
               port: http
+          lifecycle:
+            preStop:
+              # Unfortunately we can't use httpGet here since Spring Actuator requires HTTP POST method
+              exec:
+                command: ["curl","-X","POST","localhost:8080/actuator/shutdown"]
           env:
             - name: SPRING_DATASOURCE_URL
               value: jdbc:mysql://{{ include "spotguide-spring-boot.fullname" . }}-mysql:3306/{{ .Values.mysql.mysqlDatabase }}?useSSL=false
