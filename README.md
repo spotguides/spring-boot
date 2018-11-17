@@ -13,7 +13,7 @@ This repository was created by Banzai Cloud Pipeline. Spotguides provide automat
     - [Kubernetes ready Spring Boot](#kubernetes-ready-spring-boot)
   - [Environment variables](#environment-variables)
   - [Endpoints](#endpoints)
-    - [`GET /actuator/kubernetes`](#get-actuatorkubernetes)
+    - [`GET /actuator/health/kubernetes`](#get-actuatorhealthkubernetes)
     - [`GET /actuator/prometheus`](#get-actuatorprometheus)
     - [`GET /actuator/health`](#get-actuatorhealth)
     - [`GET /ready`](#get-ready)
@@ -137,7 +137,7 @@ Our [`Spring Boot Actuator` library](https://docs.spring.io/spring-boot/docs/cur
 
 These are the implemented REST endpoints in the sample application.
 
-### `GET /actuator/kubernetes`
+### `GET /actuator/health/kubernetes`
 
 Kubernetes endpoint, returns basic [Pod](https://kubernetes.io/docs/concepts/workloads/pods/pod/) information, like name, namespace and image.
 
