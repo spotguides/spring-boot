@@ -43,5 +43,5 @@ subjects:
   name: {{ include "spotguide-spring-boot.fullname" . }}
 roleRef:
   kind: Role
-  name: v{{ include "spotguide-spring-boot.fullname" . }}
+  name: {{ include "spotguide-spring-boot.fullname" . }}
   apiGroup: rbac.authorization.k8s.io
