@@ -19,8 +19,8 @@ questions:
   tags:
   - app:docker
   targets:
-  - name: build_container.secretFrom.DOCKER_USERNAME.name
-  - name: build_container.secretFrom.DOCKER_PASSWORD.name
+  - name: build_image.secretFrom.DOCKER_USERNAME.name
+  - name: build_image.secretFrom.DOCKER_PASSWORD.name
 - type: secret
   dataType: password
   name: mysql
