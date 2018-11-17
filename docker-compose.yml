@@ -1,0 +1,14 @@
+version: "3.1"
+
+services:
+  db:
+    image: mysql:5.7
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: spring-boot
+      MYSQL_USER: sparky
+      MYSQL_PASSWORD: sparky123
+    ports:
+      - 3306:3306
