@@ -23,6 +23,8 @@ spec:
         prometheus.io/port: "8080"
         prometheus.io/path: "/actuator/prometheus"
     spec:
+      # spring-cloud-kubernetes-core needs to query the self Pod object from the API, let's allow it
+      serviceAccountName: {{ include "spotguide-spring-boot.fullname" . }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"

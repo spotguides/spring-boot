@@ -1,0 +1,47 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: {{ include "spotguide-spring-boot.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "spotguide-spring-boot.name" . }}
+    helm.sh/chart: {{ include "spotguide-spring-boot.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+
+---
+
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ include "spotguide-spring-boot.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "spotguide-spring-boot.name" . }}
+    helm.sh/chart: {{ include "spotguide-spring-boot.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - "get"
+
+---
+
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ include "spotguide-spring-boot.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "spotguide-spring-boot.name" . }}
+    helm.sh/chart: {{ include "spotguide-spring-boot.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "spotguide-spring-boot.fullname" . }}
+roleRef:
+  kind: Role
+  name: v{{ include "spotguide-spring-boot.fullname" . }}
+  apiGroup: rbac.authorization.k8s.io
