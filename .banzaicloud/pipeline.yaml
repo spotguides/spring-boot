@@ -74,6 +74,11 @@ pipeline:
           pullPolicy: Always
         ingress:
           enabled: true
+          annotations:
+            kubernetes.io/ingress.class: traefik
+            traefik.ingress.kubernetes.io/redirect-regex: ^http://(.*)
+            traefik.ingress.kubernetes.io/redirect-replacement: https://$1
+            traefik.ingress.kubernetes.io/redirect-permanent: "true"
           hosts:
           - "{{.DRONE_REPO_NAME}}.{{.CLUSTER_NAME}}.{{.ORG_NAME}}.{{.DOMAIN_NAME}}"
         mysql:
