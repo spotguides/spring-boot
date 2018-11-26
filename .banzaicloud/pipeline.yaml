@@ -9,7 +9,7 @@ pipeline:
     - mvn clean test
 
   build_image:
-    image: plugins/docker
+    image: banzaicloud/kaniko-plugin
     dockerfile: Dockerfile
     repo: '{{ .DRONE_REPO }}'
     tags: '{{ .DRONE_COMMIT_BRANCH }}'
