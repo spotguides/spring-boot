@@ -11,8 +11,8 @@ pipeline:
   build_image:
     image: banzaicloud/kaniko-plugin
     dockerfile: Dockerfile
-    repo: '{{ .DRONE_REPO }}'
-    tags: '{{ .DRONE_COMMIT_BRANCH }}'
+    repo: '{{ .CICD_REPO }}'
+    tags: '{{ .CICD_COMMIT_BRANCH }}'
     log: debug
     secretFrom:
       DOCKER_USERNAME:
@@ -34,7 +34,7 @@ pipeline:
     image: banzaicloud/ci-pipeline-client:0.7
     action: InstallSecret
     clusterSecret:
-      name: '{{ .DRONE_REPO_NAME }}-mysql'
+      name: '{{ .CICD_REPO_NAME }}-mysql'
       namespace: default
       merge: true
       spec:
@@ -50,7 +50,7 @@ pipeline:
     image: banzaicloud/ci-pipeline-client:0.7
     action: InstallSecret
     clusterSecret:
-      name: '{{ .DRONE_REPO_NAME }}-mysql'
+      name: '{{ .CICD_REPO_NAME }}-mysql'
       namespace: default
       merge: true
       spec:
@@ -66,11 +66,11 @@ pipeline:
     deployment:
       name: './spotguide-spring-boot-1.0.0.tgz'
       reuseValues: true
-      releaseName: '{{ .DRONE_REPO_NAME }}'
+      releaseName: '{{ .CICD_REPO_NAME }}'
       values:
         image:
-          repository: '{{ .DRONE_REPO }}'
-          tag: '{{ .DRONE_COMMIT_BRANCH }}'
+          repository: '{{ .CICD_REPO }}'
+          tag: '{{ .CICD_COMMIT_BRANCH }}'
           pullPolicy: Always
         ingress:
           enabled: true
@@ -80,6 +80,6 @@ pipeline:
             traefik.ingress.kubernetes.io/redirect-replacement: https://$1
             traefik.ingress.kubernetes.io/redirect-permanent: "true"
           hosts:
-          - "{{.DRONE_REPO_NAME}}.{{.CLUSTER_NAME}}.{{.ORG_NAME}}.{{.DOMAIN_NAME}}"
+          - "{{.CICD_REPO_NAME}}.{{.CLUSTER_NAME}}.{{.ORG_NAME}}.{{.DOMAIN_NAME}}"
         mysql:
-          existingSecret: '{{ .DRONE_REPO_NAME }}-mysql'
+          existingSecret: '{{ .CICD_REPO_NAME }}-mysql'
