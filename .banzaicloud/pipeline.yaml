@@ -13,7 +13,6 @@ pipeline:
     dockerfile: Dockerfile
     repo: '{{ .CICD_REPO }}'
     tags: '{{ .CICD_COMMIT_BRANCH }}'
-    log: debug
     secretFrom:
       DOCKER_USERNAME:
         keyRef: username
