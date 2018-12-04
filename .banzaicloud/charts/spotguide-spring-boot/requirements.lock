@@ -1,0 +1,12 @@
+dependencies:
+- name: mysql
+  repository: https://kubernetes-charts.storage.googleapis.com
+  version: 0.10.2
+- name: pipeline-cluster-ingress
+  repository: http://kubernetes-charts.banzaicloud.com/branch/master
+  version: 0.0.7
+- name: pipeline-cluster-monitor
+  repository: http://kubernetes-charts.banzaicloud.com/branch/master
+  version: 0.1.16
+digest: sha256:416c452ecab51e31970d6682cc74b62344f7561b21c154c713f58a2632f45f30
+generated: 2018-12-04T11:04:46.247238213+01:00

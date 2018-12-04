@@ -23,8 +23,7 @@ pipeline:
     image: lachlanevenson/k8s-helm:latest
     commands:
     - helm init -c
-    - helm repo add banzaicloud-stable http://kubernetes-charts.banzaicloud.com/branch/master
-    - helm package -u ./.banzaicloud/charts/spotguide-spring-boot
+    - helm package ./.banzaicloud/charts/spotguide-spring-boot
 
   install_mysql_user_secret:
     when:
