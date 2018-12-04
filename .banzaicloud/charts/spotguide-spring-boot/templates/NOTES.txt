@@ -1,5 +1,8 @@
 Congratulations, your Spring Boot application has been deployed to Kubernetes!
 
+Please note that if security scan enabled for your cluster, running your application for the first time may take longer than usual!
+Please be patient.
+
 {{ if gt (len .Values.ingress.hosts) 0 }}
 The application can be accessed on the following host(s) on port {{ .Values.service.port }}:
 {{ range .Values.ingress.hosts }}
