@@ -12,7 +12,7 @@ pipeline:
     image: banzaicloud/kaniko-plugin
     dockerfile: Dockerfile
     repo: '{{ .CICD_REPO }}'
-    tags: '{{ .CICD_COMMIT_BRANCH }}'
+    tags: '{{ trunc 7 .CICD_COMMIT_SHA }}'
     secretFrom:
       DOCKER_USERNAME:
         keyRef: username
@@ -68,7 +68,7 @@ pipeline:
       values:
         image:
           repository: '{{ .CICD_REPO }}'
-          tag: '{{ .CICD_COMMIT_BRANCH }}'
+          tag: '{{ trunc 7 .CICD_COMMIT_SHA }}'
           pullPolicy: Always
         ingress:
           enabled: true
