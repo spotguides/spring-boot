@@ -112,6 +112,9 @@
                 <artifactId>jib-maven-plugin</artifactId>
                 <version>1.0.2</version>
                 <configuration>
+                    <from>
+                        <image>gcr.io/distroless/java:11</image>
+                    </from>
                     <to>
                         <image>${env.DOCKER_REPO}:${env.DOCKER_TAG}</image>
                         <auth>
