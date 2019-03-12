@@ -31,6 +31,13 @@ Create chart name and version as used by the chart label.
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
+{{- define "call-nested" }}
+{{- $dot := index . 0 }}
+{{- $subchart := index . 1 }}
+{{- $template := index . 2 }}
+{{- include $template (dict "Chart" (dict "Name" $subchart) "Values" (index $dot.Values $subchart) "Release" $dot.Release "Capabilities" $dot.Capabilities) }}
+{{- end }}
+
 {{- define "repo-tag" }}
 {{- if .Values.banzaicloud.organization.name }}
 {{- range .Values.banzaicloud.tags }}
