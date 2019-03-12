@@ -49,13 +49,13 @@ spec:
                 command: ["curl","-X","POST","localhost:8080/actuator/shutdown"]
           env:
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:mysql://{{ include "spotguide-spring-boot.fullname" . }}-mysql:3306/{{ .Values.mysql.mysqlDatabase }}?useSSL=false
+              value: jdbc:mysql://{{ include "call-nested" (list . "mysql" "mysql.fullname") }}:3306/{{ .Values.mysql.mysqlDatabase }}?useSSL=false
             - name: SPRING_DATASOURCE_USERNAME
               value: {{ .Values.mysql.mysqlUser }}
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ if .Values.mysql.existingSecret }}{{ .Values.mysql.existingSecret }}{{- else }}{{ include "spotguide-spring-boot.fullname" . }}-mysql{{- end }}
+                  name: {{ if .Values.mysql.existingSecret }}{{ .Values.mysql.existingSecret }}{{- else }}{{ include "call-nested" (list . "mysql" "mysql.fullname") }}{{- end }}
                   key: mysql-password
             {{ range $key, $value := .Values.env }}
             - name: {{ $key }}
