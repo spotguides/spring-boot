@@ -9,15 +9,28 @@ pipeline:
     - mvn clean test
 
   build_image:
-    image: banzaicloud/kaniko-plugin
-    dockerfile: Dockerfile
-    repo: '{{ .CICD_REPO }}'
-    tags: '{{ trunc 7 .CICD_COMMIT_SHA }}'
+    image: maven:3.5-jdk-11-slim
+    commands:
+      - mvn compile jib:build
+    environment:
+      DOCKER_REPO: '{{ .CICD_REPO }}'
+      DOCKER_TAG:  '{{ trunc 7 .CICD_COMMIT_SHA }}'
     secretFrom:
       DOCKER_USERNAME:
         keyRef: username
       DOCKER_PASSWORD:
         keyRef: password
+
+#  build_image:
+#    image: banzaicloud/kaniko-plugin
+#    dockerfile: Dockerfile
+#    repo: '{{ .CICD_REPO }}'
+#    tags: '{{ trunc 7 .CICD_COMMIT_SHA }}'
+#    secretFrom:
+#      DOCKER_USERNAME:
+#        keyRef: username
+#      DOCKER_PASSWORD:
+#        keyRef: password
 
   package_application:
     image: lachlanevenson/k8s-helm:latest
