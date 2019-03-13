@@ -6,12 +6,12 @@ pipeline:
   test:
     image: maven:3.5-jdk-11-slim
     commands:
-    - mvn clean test
+    - mvn -Dmaven.repo.local=${PWD}/.m2/repository clean test
 
   build_image:
     image: maven:3.5-jdk-11-slim
     commands:
-      - mvn compile jib:build
+    - mvn -Dmaven.repo.local=${PWD}/.m2/repository compile jib:build
     environment:
       DOCKER_REPO: '{{ .CICD_REPO }}'
       DOCKER_TAG:  '{{ trunc 7 .CICD_COMMIT_SHA }}'

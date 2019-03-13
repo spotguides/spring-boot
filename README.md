@@ -77,7 +77,7 @@ _Requirements:_
 _Commands:_
 
 ```sh
-docker build . -t spotguide-spring-boot
+DOCKER_REPO=spotguide-spring-boot DOCKER_TAG=latest mvn compile jib:dockerBuild
 ```
 
 #### Start application in development mode
@@ -108,7 +108,7 @@ _Commands:_
 # start dependencies
 docker-compose up -d
 # build image
-docker build . -t spotguide-spring-boot
+DOCKER_REPO=spotguide-spring-boot DOCKER_TAG=latest mvn compile jib:dockerBuild
 # start application in development mode
 mvn spring-boot:run
 ```
@@ -183,7 +183,7 @@ Delete a user.
 
 ```bash
 ## Build and Test locally with Docker for Mac Kubernetes
-docker build -t banzaicloud/spotguide-spring-boot:latest .
+DOCKER_REPO=banzaicloud/spotguide-spring-boot DOCKER_TAG=latest mvn compile jib:dockerBuild
 helm dep update .banzaicloud/charts/spotguide-spring-boot
 helm upgrade --install spotguide-spring-boot .banzaicloud/charts/spotguide-spring-boot --set ingress.enabled=true --set "ingress.hosts[0]=localhost" --set monitor.enabled=true --set pipeline-ingress.enabled=true
 
