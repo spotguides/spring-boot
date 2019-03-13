@@ -52,3 +52,9 @@ mysql:
     annotations:
       prometheus.io/scrape: "true"
       prometheus.io/port: "9104"
+
+pipeline-ingress:
+  enabled: false
+  
+pipeline-monitor:
+  enabled: false

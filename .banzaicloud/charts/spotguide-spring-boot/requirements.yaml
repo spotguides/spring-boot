@@ -11,4 +11,4 @@ dependencies:
   repository: http://kubernetes-charts.banzaicloud.com/branch/master
   version: '>=0.1.10'
   alias: monitor
-  condition: monitor.enabled
+  condition: pipeline-monitor.enabled
