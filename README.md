@@ -56,7 +56,7 @@ This will build the application and install all the components to Kubernetes.
 
 #### Run tests
 
-Using installed Maven:
+##### Using installed Maven:
 
 _Requirements:_
 
@@ -68,7 +68,7 @@ _Commands:_
 mvn clean package
 ```
 
-Using Docker:
+##### Using Docker:
 
 _Requirements:_
 
