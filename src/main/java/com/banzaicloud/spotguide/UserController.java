@@ -37,7 +37,7 @@ public class UserController {
     @GetMapping(path = "/users/{id}")
     public User getUser(@PathVariable Integer id) {
         var user = userRepository.findById(id);
-        if (!user.isPresent()) {
+        if (user.isEmpty()) {
             throw new UserNotFoundException();
         }
         return user.get();
@@ -46,7 +46,7 @@ public class UserController {
     @PutMapping(path = "/users/{id}")
     public User updateUser(@PathVariable Integer id, @RequestBody User user) {
         var oldUser = userRepository.findById(id);
-        if (!oldUser.isPresent()) {
+        if (oldUser.isEmpty()) {
             throw new UserNotFoundException();
         }
         user.setId(oldUser.get().getId());
