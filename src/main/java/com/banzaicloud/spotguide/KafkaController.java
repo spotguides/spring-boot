@@ -34,7 +34,7 @@ public class KafkaController {
         return messages;
     }
 
-    @KafkaListener(topics = KafkaController.BOOT_TOPIC, groupId = "group_id")
+    @KafkaListener(topics = KafkaController.BOOT_TOPIC)
     public void consume(String message) {
         messages.add(message);
     }

@@ -10,6 +10,11 @@ spring:
     username: sparky
     password: sparky123
 
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: myGroup
+
 # There is an issue with `spring-cloud-starter-config`, when mixed with `spring-boot-starter-data-jpa` and `Spring Boot v2.1.x`.
 # https://github.com/spring-cloud/spring-cloud-security/issues/143#issuecomment-376391930
 spring.main.allow-bean-definition-overriding: true
