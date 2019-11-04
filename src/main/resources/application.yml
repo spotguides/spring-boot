@@ -11,6 +11,7 @@ spring:
     password: sparky123
 
   kafka:
+    enabled: false
     bootstrap-servers: localhost:9092
     consumer:
       group-id: myGroup

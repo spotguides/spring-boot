@@ -1,6 +1,7 @@
 package com.banzaicloud.spotguide;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/kafka")
+@ConditionalOnProperty(value = "spring.kafka.enabled", havingValue = "true")
 public class KafkaController {
 
     static final String BOOT_TOPIC = "spring-boot";
