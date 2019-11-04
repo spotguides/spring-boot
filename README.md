@@ -135,7 +135,7 @@ Our [`Spring Boot Actuator` library](https://docs.spring.io/spring-boot/docs/cur
 
 ## Endpoints
 
-These are the implemented REST endpoints in the sample application.
+These are the available REST endpoints in the sample application:
 
 ### `GET /actuator/health/kubernetes`
 
@@ -148,7 +148,6 @@ Kubernetes endpoint, returns basic [Pod](https://kubernetes.io/docs/concepts/wor
 ### `GET /actuator/health`
 
 Health check, liveness probe endpoint. Returns `200` when the application is healthy, can reach the database.
-
 
 ### `GET /api/v1/users`
 
@@ -179,6 +178,22 @@ Update a user. The request body has the same schema as [`POST /api/v1/users`](#p
 
 Delete a user.
 
+## Optional Kafka endpoints if running with SPRING_KAFKA_ENABLED=true
+
+### `GET /api/v1/kafka`
+
+Fetch all Kafka messages.
+
+### `POST /api/v1/kafka`
+
+Send a new message to the `"spring-boot"` Kafka topic.
+
+```json
+{
+  "message": "hello-spring-boot"
+}
+```
+
 ## Build Run and Test locally
 
 ```bash
@@ -205,5 +220,5 @@ mvn clean package -DskipTests
 
 SPRING_DATASOURCE_USERNAME=sparky SPRING_DATASOURCE_PASSWORD=sparky123 java -jar target/app.jar
 
-curl -H "Content-Type: application/json" http://localhost:8080/users -d '{"userName":"john","email":"john@doe.com"}'
+curl -H "Content-Type: application/json" http://localhost:8080/api/v1/users -d '{"userName":"john","email":"john@doe.com"}'
 ```
