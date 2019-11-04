@@ -19,7 +19,7 @@ import java.util.Map;
 @ConditionalOnProperty(value = "spring.kafka.enabled", havingValue = "true")
 public class KafkaController {
 
-    static final String BOOT_TOPIC = "spring-boot";
+    private static final String BOOT_TOPIC = "spring-boot";
 
     private final List<String> messages = new ArrayList<>();
 
