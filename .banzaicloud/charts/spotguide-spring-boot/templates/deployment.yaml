@@ -57,6 +57,8 @@ spec:
                 secretKeyRef:
                   name: {{ if .Values.mysql.existingSecret }}{{ .Values.mysql.existingSecret }}{{- else }}{{ include "call-nested" (list . "mysql" "mysql.fullname") }}{{- end }}
                   key: mysql-password
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              value: {{ .Values.kafka.bootstrapServers }}
             {{ range $key, $value := .Values.env }}
             - name: {{ $key }}
               value: {{ $value | quote }}
