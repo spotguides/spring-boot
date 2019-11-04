@@ -2,6 +2,8 @@ package com.banzaicloud.spotguide;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,8 +29,9 @@ public class KafkaController {
     private KafkaTemplate<String, String> kafkaTemplate;
 
     @PostMapping
-    public void sendMessage(@RequestBody Map<String, String> body) {
+    public ResponseEntity sendMessage(@RequestBody Map<String, String> body) {
         kafkaTemplate.send(BOOT_TOPIC, body.get("message"));
+        return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
     @GetMapping
