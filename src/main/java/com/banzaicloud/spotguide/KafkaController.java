@@ -1,7 +1,9 @@
 package com.banzaicloud.spotguide;
 
+import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -42,5 +44,10 @@ public class KafkaController {
     @KafkaListener(topics = KafkaController.BOOT_TOPIC)
     public void consume(String message) {
         messages.add(message);
+    }
+
+    @Bean
+    public NewTopic newTopic() {
+        return new NewTopic(BOOT_TOPIC, 1, (short) 1);
     }
 }
