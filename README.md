@@ -178,7 +178,9 @@ Update a user. The request body has the same schema as [`POST /api/v1/users`](#p
 
 Delete a user.
 
-## Optional Kafka endpoints if running with SPRING_KAFKA_ENABLED=true
+## Optional Kafka endpoints
+
+You have to enable Kafka support via running it with `SPRING_KAFKA_ENABLED=true`.
 
 ### `GET /api/v1/kafka`
 
