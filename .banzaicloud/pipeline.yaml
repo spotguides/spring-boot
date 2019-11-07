@@ -50,6 +50,20 @@ pipeline:
     - helm dep update ./.banzaicloud/charts/spotguide-spring-boot
     - helm package ./.banzaicloud/charts/spotguide-spring-boot
 
+#  install_gcr_secret:
+#    when:
+#      branch:
+#        include: [master]
+#    image: banzaicloud/ci-pipeline-client:0.11
+#    action: InstallSecret
+#    clusterSecret:
+#      name: your-gcr-secret-name
+#      namespace: default
+#      merge: true
+#      spec:
+#        - name: json-key
+#          source: json-key
+           
   install_mysql_user_secret:
     when:
       branch:
