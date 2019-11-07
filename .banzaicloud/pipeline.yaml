@@ -22,7 +22,7 @@ pipeline:
         keyRef: password
 
 #  build_image:
-#    image: banzaicloud/kaniko-plugin
+#    image: banzaicloud/drone-kaniko
 #    dockerfile: Dockerfile
 #    repo: '{{ .CICD_REPO }}'
 #    tags: '{{ trunc 7 .CICD_COMMIT_SHA }}'
@@ -33,7 +33,7 @@ pipeline:
 #        keyRef: password
 
 #  build_image:
-#    image: banzaicloud/kaniko-plugin
+#    image: banzaicloud/drone-kaniko
 #    dockerfile: Dockerfile
 #    repo: 'gcr.io/your-project/{{ .CICD_REPO }}'
 #    tags: '{{ trunc 7 .CICD_COMMIT_SHA }}'
