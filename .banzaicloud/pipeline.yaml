@@ -32,6 +32,16 @@ pipeline:
 #      DOCKER_PASSWORD:
 #        keyRef: password
 
+#  build_image:
+#    image: banzaicloud/kaniko-plugin
+#    dockerfile: Dockerfile
+#    repo: 'gcr.io/your-project/{{ .CICD_REPO }}'
+#    tags: '{{ trunc 7 .CICD_COMMIT_SHA }}'
+#    secretFrom:
+#      JSON_KEY:
+#        name: your-gcr-secret-name
+#        keyRef: json-key
+
   package_application:
     image: lachlanevenson/k8s-helm:latest
     commands:
