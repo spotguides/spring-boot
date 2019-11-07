@@ -110,6 +110,7 @@ pipeline:
           repository: '{{ .CICD_REPO }}'
           tag: '{{ trunc 7 .CICD_COMMIT_SHA }}'
           pullPolicy: Always
+        {{{{- if .platform.AutoDNSEnabled }}}}
         ingress:
           enabled: true
           annotations:
@@ -119,5 +120,9 @@ pipeline:
             traefik.ingress.kubernetes.io/redirect-permanent: "true"
           hosts:
           - "{{.CICD_REPO_NAME}}.{{.CLUSTER_NAME}}.{{.ORG_NAME}}.{{.DOMAIN_NAME}}"
+        {{{{ else }}}}
+        service:
+          type: LoadBalancer
+        {{{{- end }}}}
         mysql:
           existingSecret: '{{ .CICD_REPO_NAME }}-mysql'
