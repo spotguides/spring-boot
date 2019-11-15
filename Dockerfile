@@ -1,4 +1,4 @@
-FROM maven:3.5-jdk-11-slim as build
+FROM maven:3.6-jdk-11-slim as build
 
 # Resolve all the dependencies and cache them to save a LOT of time
 COPY pom.xml /usr/src/myapp/

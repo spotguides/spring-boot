@@ -1,15 +1,15 @@
 pipeline:
   create_cluster:
-    image: banzaicloud/ci-pipeline-client:0.11
+    image: banzaicloud/ci-pipeline-client:0.12
     action: EnsureCluster
 
   test:
-    image: maven:3.5-jdk-11-slim
+    image: maven:3.6-jdk-11-slim
     commands:
     - mvn -Dmaven.repo.local=${PWD}/.m2/repository clean test
 
   build_image:
-    image: maven:3.5-jdk-11-slim
+    image: maven:3.6-jdk-11-slim
     commands:
     - mvn -Dmaven.repo.local=${PWD}/.m2/repository compile jib:build
     environment:
@@ -32,6 +32,20 @@ pipeline:
 #      DOCKER_PASSWORD:
 #        keyRef: password
 
+#  install_gcr_secret:
+#    when:
+#      branch:
+#        include: [master]
+#    image: banzaicloud/ci-pipeline-client:0.12
+#    action: InstallSecret
+#    clusterSecret:
+#      name: your-gcr-secret-name
+#      namespace: default
+#      merge: true
+#      spec:
+#        - name: json-key
+#          source: json-key
+
 #  build_image:
 #    image: banzaicloud/drone-kaniko
 #    dockerfile: Dockerfile
@@ -44,32 +58,18 @@ pipeline:
 #        keyRef: json-key
 
   package_application:
-    image: lachlanevenson/k8s-helm:latest
+    image: alpine/helm:3.0.0
     commands:
-    - helm init -c
+    - helm repo add stable https://kubernetes-charts.storage.googleapis.com
     - helm repo add banzaicloud-stable https://kubernetes-charts.banzaicloud.com
     - helm dep update ./.banzaicloud/charts/spotguide-spring-boot
     - helm package ./.banzaicloud/charts/spotguide-spring-boot
 
-#  install_gcr_secret:
-#    when:
-#      branch:
-#        include: [master]
-#    image: banzaicloud/ci-pipeline-client:0.11
-#    action: InstallSecret
-#    clusterSecret:
-#      name: your-gcr-secret-name
-#      namespace: default
-#      merge: true
-#      spec:
-#        - name: json-key
-#          source: json-key
-           
   install_mysql_user_secret:
     when:
       branch:
         include: [master]
-    image: banzaicloud/ci-pipeline-client:0.11
+    image: banzaicloud/ci-pipeline-client:0.12
     action: InstallSecret
     clusterSecret:
       name: '{{ .CICD_REPO_NAME }}-mysql'
@@ -85,7 +85,7 @@ pipeline:
     when:
       branch:
         include: [master]
-    image: banzaicloud/ci-pipeline-client:0.11
+    image: banzaicloud/ci-pipeline-client:0.12
     action: InstallSecret
     clusterSecret:
       name: '{{ .CICD_REPO_NAME }}-mysql'
@@ -99,7 +99,7 @@ pipeline:
     when:
       branch:
         include: [master]
-    image: banzaicloud/ci-pipeline-client:0.11
+    image: banzaicloud/ci-pipeline-client:0.12
     action: EnsureDeployment
     deployment:
       name: './spotguide-spring-boot-1.0.0.tgz'
